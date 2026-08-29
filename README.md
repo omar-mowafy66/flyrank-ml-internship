@@ -1,117 +1,33 @@
-# Omar Mowafy — Personal Portfolio Site
+# Skills — the router
 
-**Live site:** https://aquamarine-swan-babaac.netlify.app/ *(update to custom domain once live)*
-**Repo:** https://github.com/omar-mowafy66/omar-mowafy-portfolio--1-
+This folder is a small library of **skills**: focused instruction files your AI assistant loads
+one at a time. One skill per task keeps the assistant sharp — its context window is small, and
+filling it with everything makes it worse at the one thing you need.
 
-## What it is, and for whom
+**How to use it (repo-reading agents — Claude Code, Cursor, Codex):** they find this file
+automatically via `AGENTS.md` / `CLAUDE.md`. Just tell your assistant which task you're doing.
 
-A single-page personal portfolio for Omar Mowafy, a Communication & Electronics
-Engineering student specializing in Embedded Systems and AI. It exists for two
-audiences: **recruiters/mentors** scanning for proof of skills and a way to reach
-out, and **Omar himself**, as a permanent, public anchor for his work as it grows
-(FlyRank capstone, future write-ups, projects).
+**Using a chat-only assistant (ChatGPT / Gemini in a browser)?** Open the skill file on GitHub,
+copy its whole content, and paste it into your chat before asking for help. That's it.
 
-It intentionally does one thing: state who Omar is, link out to real proof
-(GitHub, LinkedIn, CV), and offer a working way to get in touch. No fake case
-studies, no placeholder projects — the empty "Posts & capstone work" section
-says exactly that it's empty, on purpose.
+## The table — find your task, load ONE skill
 
-## Setup (reproducible from scratch)
-
-This is a static site with zero build step and zero dependencies.
-
-1. Clone the repo:
-   ```
-   git clone https://github.com/omar-mowafy66/omar-mowafy-portfolio--1-.git
-   cd omar-mowafy-portfolio--1-
-   ```
-2. Open `index.html` directly in a browser — that's it. No `npm install`,
-   no server required for local viewing.
-3. To deploy: connect the repo to [Netlify](https://netlify.com) (or drag-and-drop
-   the folder into Netlify's dashboard). Netlify auto-detects it as a static site.
-4. The contact form uses **Netlify Forms** — this only works once deployed on
-   Netlify (it won't submit anywhere when opened locally as a plain file).
-   No extra configuration needed beyond the `data-netlify="true"` attribute
-   already in the form markup.
-5. Analytics: add your Cloudflare Web Analytics `<script>` snippet before the
-   closing `</body>` tag (see "Architecture" below for where it plugs in).
-
-No API keys, no environment variables, no `.env` file — everything needed to
-run this is in the repo.
-
-## Usage examples
-
-- **View the site:** open the live URL above in any browser, desktop or mobile.
-- **Download the CV:** click "Resume → Download CV →" in the nav bar; downloads
-  `Omar_Mowafy_CV.docx` directly.
-- **Contact Omar:** fill the form under "Get in touch" (name, email, message)
-  and submit — it lands in the Netlify Forms dashboard on the site owner's side.
-  Alternatively, click "Reach out → Book a call →" to open a pre-filled mailto link.
-
-## Architecture
-
-```
-[ Visitor's browser ]
-        |
-        v
-[ Netlify CDN — static hosting, HTTPS by default ]
-   |
-   |-- index.html      (structure, inline CSS, no JS framework)
-   |-- favicon.svg      (site icon)
-   |-- Omar_Mowafy_CV.docx  (static download asset)
-        |
-        v
-[ Netlify Forms ] -----submission-----> [ Netlify dashboard, Forms tab ]
-        |
-        v
-[ Cloudflare Web Analytics ] --pageview beacon--> [ Cloudflare dashboard ]
-```
-
-No backend server, no database. Netlify's built-in form handling replaces
-the need for a custom API endpoint; Cloudflare's script tag replaces the need
-for a self-hosted analytics stack.
-
-## v2 eval results
-
-A hardening pass was run against the live site before this v2 (see the full
-hardening review report in this repo). Summary:
-
-| Check | v1 result | v2 result |
+| Your task | Load this skill | Also load for data work |
 |---|---|---|
-| CV download link | 404 (broken) | ✅ Fixed, verified working |
-| SEO meta description present | ❌ Missing | ✅ Added |
-| Open Graph / social-share tags | ❌ Missing | ✅ Added |
-| Favicon present | ❌ Missing | ✅ Added |
-| Empty form submission blocked | ✅ Pass (browser `required` validation) | ✅ Pass |
-| All nav links functional (LinkedIn, GitHub, CV, mailto) | 1 of 4 broken (CV) | ✅ 4 of 4 working |
-| Site findable via name search on Google | ❌ Not indexed | 🟡 Pending re-crawl post-redeploy |
+| Any task — how to work with your assistant at all | `directing-your-ai-assistant/SKILL.md` | — |
+| Pick a lane, frame your question (ML-02, ML-03) | `framing-ml-problems/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| Write + verify the data contract (ML-04) | `writing-data-contracts/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| Query the big warehouse without downloading it (ML-04/05, capstone) | `querying-big-datasets/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| EDA + signal tests with verdicts (ML-06) | `auditing-signals/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| Build the rule baseline + ranked queue (ML-07) | `building-baselines/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| Train and compare the model (ML-08) | `training-honest-models/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| Hunt leakage; validate honestly (ML-05, ML-09) | `hunting-leakage-and-validating/SKILL.md` | `flyrank/flyrank-data/SKILL.md` |
+| Write claims that hold (ML-09, ML-10, the paper) | `writing-honest-claims/SKILL.md` | — |
+| Write the research paper (ML-11, W7) | `writing-research-papers/SKILL.md` | — |
+| Deploy the paper as a page (ML-11) | `deploying-static-pages/SKILL.md` | — |
+| Understand FlyRank + the problem (background) | `flyrank/flyrank-context/SKILL.md` | — |
 
-## Limitations (known, not hidden)
+## Reuse this on your next project
 
-- **No confirmation message after form submit.** The form clears on submit
-  but doesn't show an explicit "message sent" confirmation on-page — a visitor
-  has to trust it worked. Submissions are visible in the Netlify dashboard.
-- **"Posts & capstone work" is empty.** This is accurate, not a bug — no
-  write-ups exist yet.
-- **No automated tests.** This is a static marketing/identity page, not an
-  application with business logic, so there's no test suite. Verification is
-  manual (see hardening review report).
-- **Search indexing takes time.** Adding meta tags doesn't force Google to
-  index the page immediately; this depends on crawl timing outside the site's
-  control.
-- **Single language (English only).** No localization.
-
-## Built with AI — what and how
-
-This site's HTML/CSS structure, the SEO/meta tag additions, the favicon, the
-hardening review report, and this README were built in collaboration with
-Claude (Anthropic). Specifically:
-- Claude drafted the meta tag block (description, Open Graph, Twitter card)
-  and the favicon SVG, which I reviewed and inserted into the live file myself.
-- I directed and ran the "break it" testing (empty form, broken links, garbage
-  input, cross-device checks) myself; Claude fetched the live page to confirm
-  which links actually failed and helped me triage findings into fix-now vs.
-  known-limitation.
-- I personally verified every fix (CV download, form submission, meta tags)
-  on the live deployed site before considering this checkpoint done — nothing
-  here was accepted on Claude's word alone.
+Every skill outside `flyrank/` is **general** — take this whole folder to any future project.
+Delete `skills/flyrank/` and the flyrank column above, and everything else still works.
